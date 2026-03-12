@@ -348,8 +348,6 @@ def submit_feedback(data: CustomerFeedback):
    
    # question 4 - 
    
-   
-   
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -379,8 +377,6 @@ def product_summary():
         "categories":         categories,
     }
     
-    
-
     
      #question 5 : - 
      
@@ -587,17 +583,6 @@ def confirm_order(order_id: int):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 #Day 4 :- Crud Operation 
 
 from fastapi import FastAPI, Query, Response, status
@@ -605,7 +590,7 @@ from typing import Optional
 
 app = FastAPI()
 
-# Sample products
+
 products = [
     {"id": 1, "name": "Wireless Mouse", "price": 499, "category": "Electronics", "in_stock": True},
     {"id": 2, "name": "Notebook", "price": 99, "category": "Stationery", "in_stock": True},
@@ -637,7 +622,6 @@ def get_product(product_id: int, response: Response):
     return product
 
 
-# PUT endpoint (THIS creates the PUT button in Swagger)
 @app.put("/products/{product_id}")
 def update_product(
     product_id: int,
@@ -670,13 +654,13 @@ def update_product(
 @app.delete("/products/{product_id}")
 def delete_product(product_id: int, response: Response):
 
-    product = find_product(product_id)  # Step 1: find product
+    product = find_product(product_id) 
 
-    if not product:                     # Step 2: if not found
+    if not product:                     
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"error": "Product not found"}
 
-    products.remove(product)            # Step 3: remove product
+    products.remove(product)           
 
     return {"message": f"Product '{product['name']}' deleted"}
 
@@ -694,9 +678,9 @@ from typing import Optional
 
 app = FastAPI()
 
-# ---------------------------
+
 # Pydantic Model
-# ---------------------------
+
 class NewProduct(BaseModel):
     name: str
     price: int
@@ -704,9 +688,9 @@ class NewProduct(BaseModel):
     in_stock: bool = True
 
 
-# ---------------------------
+
 # Sample Data
-# ---------------------------
+
 products = [
     {"id": 1, "name": "Wireless Mouse", "price": 499, "category": "Electronics", "in_stock": True},
     {"id": 2, "name": "Notebook", "price": 99, "category": "Stationery", "in_stock": True},
@@ -715,9 +699,9 @@ products = [
 ]
 
 
-# ---------------------------
+
 # Helper Function
-# ---------------------------
+
 def find_product(product_id: int):
     for p in products:
         if p["id"] == product_id:
@@ -725,17 +709,17 @@ def find_product(product_id: int):
     return None
 
 
-# ---------------------------
+
 # GET all products
-# ---------------------------
+
 @app.get("/products")
 def get_products():
     return {"products": products, "total": len(products)}
 
 
-# ---------------------------
+
 # INVENTORY AUDIT
-# ---------------------------
+
 @app.get("/products/audit")
 def product_audit():
 
@@ -757,9 +741,9 @@ def product_audit():
     }
 
 
-# ---------------------------
+
 # CATEGORY DISCOUNT
-# ---------------------------
+
 @app.put("/products/discount")
 def bulk_discount(
     category: str = Query(..., description="Category to discount"),
@@ -783,9 +767,9 @@ def bulk_discount(
     }
 
 
-# ---------------------------
+
 # GET single product
-# ---------------------------
+
 @app.get("/products/{product_id}")
 def get_product(product_id: int, response: Response):
 
@@ -798,9 +782,9 @@ def get_product(product_id: int, response: Response):
     return product
 
 
-# ---------------------------
+
 # POST new product
-# ---------------------------
+
 @app.post("/products", status_code=201)
 def add_product(new_product: NewProduct, response: Response):
 
@@ -824,9 +808,9 @@ def add_product(new_product: NewProduct, response: Response):
     return {"message": "Product added", "product": product}
 
 
-# ---------------------------
+
 # UPDATE product
-# ---------------------------
+
 @app.put("/products/{product_id}")
 def update_product(
     product_id: int,
@@ -850,9 +834,9 @@ def update_product(
     return {"message": "Product updated", "product": product}
 
 
-# ---------------------------
+
 # DELETE product
-# ---------------------------
+
 @app.delete("/products/{product_id}")
 def delete_product(product_id: int, response: Response):
 
@@ -863,5 +847,6 @@ def delete_product(product_id: int, response: Response):
         return {"error": "Product not found"}
 
     products.remove(product)
+
 
     return {"message": f"Product '{product['name']}' deleted"}
